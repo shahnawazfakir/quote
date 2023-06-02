@@ -1,0 +1,201 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Caveat:wght@400;500;600;700&display=swap');
+
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Body Styles */
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 0 10px;
+    background-image: linear-gradient(to right, #ff512f, #f09819);
+}
+
+/* Wrapper Styles */
+.wrapper {
+    width: 605px;
+    background-color: white;
+    border-radius: 15px;
+    padding: 30px 30px 25px;
+}
+
+.wrapper header {
+    font-size: 35px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.wrapper .content {
+    margin: 35px 0;
+}
+
+/* Quote Area Styles */
+.content .quote-area {
+    display: flex;
+    justify-content: center;
+    font-size: 22px;
+}
+
+.quote-area i {
+    font-size: 20px;
+}
+
+.quote-area i:first-child {
+    margin-right: 10px;
+}
+
+.quote-area i:last-child {
+    display: flex;
+    align-items: flex-end;
+    margin-left: 10px;
+}
+
+.quote-area .quote {
+    font-size: 22px;
+    text-align: center;
+    word-break: break-all;
+}
+
+/* Author Styles */
+.content .author {
+    display: flex;
+    justify-content: flex-end;
+    font-size: 18px;
+    margin-top: 20px;
+    font-style: italic;
+}
+
+.content .author:hover {
+    color: rgb(10, 132, 255);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.author span:first-child {
+    margin: -6px 5px 0 0;
+    font-family: monospace;
+}
+
+/* Buttons and Features Styles */
+.buttons .features {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.features ul {
+    display: flex;
+    justify-content: space-between;
+}
+
+.features ul li {
+    list-style: none;
+    margin: 0 5px;
+    height: 47px;
+    width: 47px;
+    display: flex;
+    background: linear-gradient(to right, #ff512f, #f09819);
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.features ul li:hover {
+    color: white;
+    background: linear-gradient(to right, #ff512f, #f09819);
+}
+
+.features button {
+    border: none;
+    outline: none;
+    color: black;
+    margin: 0 5px;
+    background: linear-gradient(to right, #ff512f, #f09819);
+    padding: 13px 22px;
+    border-radius: 30px;
+    margin-left: auto;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.features button:hover {
+    color: white;
+}
+
+/* Hover Underline Animation Styles */
+.hover-underline-animation {
+    display: inline-block;
+    position: relative;
+    color: #FFFFFF;
+    font-family: "Caveat", sans-serif;
+    font-weight: 600;
+    font-size: 25px;
+}
+
+.hover-underline-animation::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: rgb(48, 209, 88);
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
+}
+
+.hover-underline-animation:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+/* ID Styles */
+#footer {
+    height: 50px;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    margin-left: 15px;
+    font-size: 20px;
+    font-weight: 400;
+    left: 0;
+    bottom: 0;
+    position: fixed;
+}
+
+/* Search Input Styles */
+.search-container {
+    display: none;
+}
+
+.search-container.show {
+    display: block;
+}
+
+.search-input {
+    width: 110%;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    border-color: black;
+    box-shadow: 0 2px 5px rgba(0.1, 0.1, 0.1, 0.1);
+    transition: box-shadow 0.3s ease;
+    margin: auto;
+    margin-left: 10px;
+}
+
+.search-input:focus {
+    outline: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
