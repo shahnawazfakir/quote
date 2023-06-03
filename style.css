@@ -199,3 +199,32 @@ body {
     outline: none;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+
+/* Responsive Styles */
+@media only screen and (max-width: 640px) {
+    .wrapper {
+        padding: 20px;
+    }
+
+    .wrapper header {
+        font-size: 30px;
+    }
+
+    .content .quote-area {
+        font-size: 17px;
+    }
+
+    .content .author .name {
+        font-size: 16px;
+    }
+
+    .features ul li {
+        height: 40px;
+        width: 40px;
+    }
+
+    .features button {
+        padding: 10px 18px;
+        font-size: 14px;
+    }
+}

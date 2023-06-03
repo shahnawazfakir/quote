@@ -111,13 +111,16 @@ function hideSearchButtonOnMobile() {
 function checkHorizontalMode() {
     const isAndroid = /Android/i.test(navigator.userAgent);
     const isiPhone = /iPhone/i.test(navigator.userAgent);
-    const isHorizontalMode = window.matchMedia("(orientation: landscape)").matches;
-
-    if ((isAndroid || isiPhone) && isHorizontalMode) {
+    if ((isAndroid || isiPhone) && window.innerHeight < window.innerWidth) {
         footer.style.display = "none";
     } else {
         footer.style.display = "block";
     }
+}
+
+// refresh page when device orientation changes
+if (window.DeviceOrientationEvent) {
+    window.addEventListener('orientationchange', function () { location.reload(); }, false);
 }
 
 // Initialize the application
@@ -164,11 +167,12 @@ function init() {
         const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(author)}`;
         window.open(searchUrl, "_blank");
     });
+
+    checkHorizontalMode()
 }
 
 // Call checkHorizontalMode on window load and orientation change
 window.addEventListener("load", checkHorizontalMode);
-window.addEventListener("orientationchange", checkHorizontalMode);
 
 // Add event listeners for window load and resize events
 window.addEventListener("load", hideSearchButtonOnMobile);
