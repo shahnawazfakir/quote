@@ -17,6 +17,9 @@ body {
     justify-content: center;
     min-height: 100vh;
     padding: 0 10px;
+    height: 100%;
+    margin: 0;
+    background-repeat: no-repeat;
     background-attachment: fixed;
     background: linear-gradient(to right, #ff512f, #f09819);
 }
