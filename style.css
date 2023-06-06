@@ -18,8 +18,9 @@ body {
     justify-content: center;
     min-height: 100vh;
     padding: 0 10px;
+    background-size: cover;
     background-color: #ff7218;
-    background: linear-gradient(to right, #ff512f, #f09819);
+    background-image: linear-gradient(to right, #ff512f, #f09819);
 }
 
 /* Wrapper Styles */
