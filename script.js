@@ -62,11 +62,35 @@ function randomQuote() {
         .then((result) => {
             quoteText.innerText = result.content;
             authorName.innerText = result.author;
+            localStorage.setItem("Quote", quoteText.innerText);
+            localStorage.setItem("Author", authorName.innerText);
+            const currentTimestamp = Date.now();
+            localStorage.setItem("lastQuoteUpdate", currentTimestamp);
         })
         .catch((error) => {
             console.error("Failed to fetch quote: ", error);
         });
 }
+
+// Check if the quote needs to be updated
+function checkAndUpdateQuote() {
+    const lastQuoteUpdate = localStorage.getItem("lastQuoteUpdate");
+    if (!lastQuoteUpdate) {
+        // First time loading, set the quote immediately
+        randomQuote();
+    }
+    const currentTimestamp = Date.now();
+    const timeSinceLastUpdate = currentTimestamp - lastQuoteUpdate;
+    const twentyFourHours = 24 * 60 * 60 * 1000;
+    if (timeSinceLastUpdate >= twentyFourHours) {
+        randomQuote();
+        init();
+    }
+    // Use the stored quote if 24 hours have not passed
+    quoteText.innerText = localStorage.getItem("Quote");
+    authorName.innerText = localStorage.getItem("Author");
+}
+
 
 // Share the current quote using the Web Share API
 function webShare(text, url) {
@@ -181,5 +205,8 @@ window.addEventListener("resize", hideSearchButtonOnMobile);
 // Call the init function after the page finishes loading
 window.addEventListener("load", init);
 
+// Call the checkAndUpdateQuote function once when the page loads
+window.addEventListener("load", checkAndUpdateQuote);
+
 // Refresh the quote every 24 hours
-setInterval(randomQuote, 24 * 60 * 60 * 1000);
+setInterval(checkAndUpdateQuote, 24 * 60 * 60 * 1000);
