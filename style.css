@@ -12,15 +12,13 @@
 /* Body Styles */
 body {
     position: relative;
+    background-position: top center;
     display: flex;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
     padding: 0 10px;
-    height: 100%;
-    margin: 0;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+    background-color: #ff7218;
     background: linear-gradient(to right, #ff512f, #f09819);
 }
 
