@@ -14,28 +14,43 @@ searchBtn.addEventListener("click", () => {
     searchContainer.classList.toggle("show");
 });
 
-// Fetch and display quotes by a specific author
-function searchQuotesByAuthor(authorSlug) {
-    fetch(`https://api.quotable.io/random?author=${encodeURIComponent(authorSlug)}`)
-        .then((res) => {
-            if (!res.ok) {
-                quoteText.innerText = "No quotes found for the author.";
-                authorName.innerText = "Author Unknown";
-            }
-            return res.json();
-        })
-        .then((result) => {
-            if (result.length > 0) {
-                quoteText.innerText = result.content;
-                authorName.innerText = result.author;
-            }
-            else {
-                // Handle the case when no quotes are found for the author
-            }
-        })
-        .catch((error) => {
-            console.error("Failed to fetch quote: ", error);
-        });
+// Search quotes by category
+function searchQuotesByCategory(category) {
+    const apiUrl = `https://api.api-ninjas.com/v1/quotes?category=${encodeURIComponent(category)}`;
+
+    fetch(apiUrl, {
+        headers: {
+            'X-Api-Key': 'lpyM26h+0EnwT3jva+2Oqg==zEfGFfVIzg4qdXir'
+        }
+    })
+    .then((res) => {
+        if (!res.ok) {
+            throw new Error("Failed to fetch quotes");
+        }
+        return res.json();
+    })
+    .then((quotes) => {
+        if (quotes && quotes.length > 0) {
+            // Randomly select a quote from the array of quotes returned
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            const quote = quotes[randomIndex];
+            quoteText.innerText = quote.quote;
+            authorName.innerText = quote.author;
+            localStorage.setItem("Quote", quoteText.innerText);
+            localStorage.setItem("Author", authorName.innerText);
+            const currentTimestamp = Date.now();
+            localStorage.setItem("lastQuoteUpdate", currentTimestamp);
+        } else {
+            // Handle the case when no quotes are found for the author
+            quoteText.innerText = "No quotes found for this category.";
+            authorName.innerText = "Author Unknown";
+        }
+    })
+    .catch((error) => {
+        console.error("Failed to fetch quotes: ", error);
+        quoteText.innerText = "Failed to fetch quotes.";
+        authorName.innerText = "Author Unknown";
+    });
 }
 
 // Trigger searchQuotesByAuthor function when Enter key is pressed in the search input
@@ -43,7 +58,7 @@ searchInput.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
         const authorSlug = searchInput.value.trim();
         if (authorSlug !== "") {
-            searchQuotesByAuthor(authorSlug);
+            searchQuotesByCategory(authorSlug);
         }
         searchContainer.classList.remove("show");
         searchInput.value = "";
@@ -52,24 +67,31 @@ searchInput.addEventListener("keydown", (event) => {
 
 // Fetch a random quote and display it
 function randomQuote() {
-    fetch("https://api.quotable.io/random")
-        .then((res) => {
-            if (!res.ok) {
-                throw new Error("Failed to fetch quote");
-            }
-            return res.json();
-        })
-        .then((result) => {
-            quoteText.innerText = result.content;
-            authorName.innerText = result.author;
-            localStorage.setItem("Quote", quoteText.innerText);
-            localStorage.setItem("Author", authorName.innerText);
-            const currentTimestamp = Date.now();
-            localStorage.setItem("lastQuoteUpdate", currentTimestamp);
-        })
-        .catch((error) => {
-            console.error("Failed to fetch quote: ", error);
-        });
+    const apiUrl = 'https://api.api-ninjas.com/v1/quotes';
+
+    fetch(apiUrl, {
+        headers: {
+            'X-Api-Key': 'lpyM26h+0EnwT3jva+2Oqg==zEfGFfVIzg4qdXir'
+        }
+    })
+    .then((res) => {
+        if (!res.ok) {
+            throw new Error("Failed to fetch quote");
+        }
+        return res.json();
+    })
+    .then((result) => {
+        const quote = result[0];
+        quoteText.innerText = quote.quote;
+        authorName.innerText = quote.author;
+        localStorage.setItem("Quote", quoteText.innerText);
+        localStorage.setItem("Author", authorName.innerText);
+        const currentTimestamp = Date.now();
+        localStorage.setItem("lastQuoteUpdate", currentTimestamp);
+    })
+    .catch((error) => {
+        console.error("Failed to fetch quote: ", error);
+    });
 }
 
 // Check if the quote needs to be updated
@@ -91,7 +113,6 @@ function checkAndUpdateQuote() {
     authorName.innerText = localStorage.getItem("Author");
 }
 
-
 // Share the current quote using the Web Share API
 function webShare(text, url) {
     return new Promise((resolve, reject) => {
@@ -104,24 +125,6 @@ function webShare(text, url) {
             reject(new Error("Web Share API is not supported or data cannot be shared."));
         }
     });
-}
-
-// Fetch a different quote by the same author
-function fetchDifferentQuoteByAuthor(author) {
-    fetch(`https://api.quotable.io/random?author=${encodeURIComponent(author)}`)
-        .then((res) => {
-            if (!res.ok) {
-                throw new Error("Failed to fetch quote");
-            }
-            return res.json();
-        })
-        .then((result) => {
-            quoteText.innerText = result.content;
-            authorName.innerText = result.author;
-        })
-        .catch((error) => {
-            console.error("Failed to fetch quote: ", error);
-        });
 }
 
 // Hide the search button on mobile devices
@@ -176,13 +179,6 @@ function init() {
             .catch((error) => {
                 console.error("Error sharing with Web Share API:", error);
             });
-    });
-
-    // Fetch a different quote by the same author
-    differentQuoteBtn.addEventListener("click", () => {
-        const author = authorName.innerText.trim();
-        const slicedAuthor = author.replace(/[^a-zA-Z ]/g, "").trim();
-        fetchDifferentQuoteByAuthor(slicedAuthor);
     });
 
     // Open a Google search for the author's name
